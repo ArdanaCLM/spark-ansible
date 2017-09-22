@@ -1,0 +1,14 @@
+.vagrant
+*.sw?
+.tox
+*.egg
+*.egg-info
+.testrepository
+*.pyc
+.project
+.pydevproject
+.settings/*
+.settings
+*.iml
+.idea
+
