@@ -23,4 +23,8 @@ export INSTANCE_ID=1
 export SPARK_CLASSPATH={{ spark_current_dir }}/conf/:{{ spark_current_dir }}/lib/spark-assembly-{{ spark_ver }}-hadoop{{ spark_hadoop_ver }}.0.jar:{{ spark_current_dir }}/lib/datanucleus-core-3.2.10.jar:{{ spark_current_dir }}/lib/datanucleus-rdbms-3.2.9.jar:{{ spark_current_dir }}/lib/datanucleus-api-jdo-3.2.6.jar
 export SPARK_HOME={{ spark_current_dir }}
 
-start-stop-daemon -c {{ spark_user }}:{{ spark_group }} --pidfile /{{ spark_run_dir }}/{{ spark_user }}-{{ spark_group }}-"$EXEC_CLASS"-"$INSTANCE_ID".pid --name spark-master --start --exec  /usr/bin/java -- -cp $SPARK_CLASSPATH $SPARK_DAEMON_JAVA_OPTS "$EXEC_CLASS" --ip "$SPARK_MASTER_IP" --port "$SPARK_MASTER_PORT" --webui-port "$SPARK_MASTER_WEBUI_PORT" >> "{{ spark_master_log_file }}" 2>&1 < /dev/null
+{% if ansible_os_family | lower == 'debian' %}
+start-stop-daemon -c {{ spark_user }}:{{ spark_group }} --pidfile {{ spark_run_dir }}/{{ spark_user }}-{{ spark_group }}-"$EXEC_CLASS"-"$INSTANCE_ID".pid --name spark-master --start --exec  /usr/bin/java -- -cp $SPARK_CLASSPATH $SPARK_DAEMON_JAVA_OPTS "$EXEC_CLASS" --ip "$SPARK_MASTER_IP" --port "$SPARK_MASTER_PORT" --webui-port "$SPARK_MASTER_WEBUI_PORT" >> "{{ spark_master_log_file }}" 2>&1 < /dev/null
+{% elif ansible_os_family | lower == 'suse' %}
+start_daemon -u {{ spark_user }} -g {{ spark_group }} -p {{ spark_run_dir }}/{{ spark_user }}-{{ spark_group }}-"$EXEC_CLASS"-"$INSTANCE_ID".pid /usr/bin/java -cp $SPARK_CLASSPATH $SPARK_DAEMON_JAVA_OPTS "$EXEC_CLASS" --ip "$SPARK_MASTER_IP" --port "$SPARK_MASTER_PORT" --webui-port "$SPARK_MASTER_WEBUI_PORT" >> "{{ spark_master_log_file }}" 2>&1 < /dev/null
+{% endif %}

@@ -15,6 +15,9 @@
 # under the License.
 #
 ---
+- name: FND-SPA | install | include OS specific variables
+  include_vars: "{{ ansible_os_family | lower }}.yml"
+
 - name: FND-SPA | install | Setup group
   become_user: root
   become: True
@@ -51,11 +54,12 @@
     dest: "{{ spark_root_dir }}"
     src: "{{ spark_venv_lib_dir }}/{{ spark_tarball_name }}"
 
-- name: FND-SPA | install | Install OpenJDK
+- name: FND-SPA | install | Install OS specific required packages
   become: yes
-  apt:
-    name: default-jre-headless
+  package:
+    name: "{{ item }}"
     state: present
+  with_items: fnd_spark_required_packages
 
 - name: FND-SPA | install | Untar kafka tarball
   become: yes
