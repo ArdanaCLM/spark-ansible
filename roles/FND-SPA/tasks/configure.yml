@@ -33,6 +33,7 @@
     - spark-class
     - spark-shell
     - spark-sql
+  when: deployer_media_legacy_layout|bool
 
 - name: FND-SPA | configure | Link spark libs
   become: yes
@@ -40,6 +41,7 @@
     path: "{{ spark_lib_jars_location }}/{{ spark_streaming_kafka_jar }}"
     state: link
     src: "{{ spark_lib_jars_location }}/{{ spark_streaming_kafka_version_jar }}"
+  when: deployer_media_legacy_layout|bool
 
 - name: FND-SPA | configure | Set up spark-env
   become: yes

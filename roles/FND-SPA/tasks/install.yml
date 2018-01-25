@@ -32,27 +32,16 @@
     system: yes
     group: "{{ spark_group }}"
 
-- name: FND-SPA | install | Update installed packager cache
-  become: yes
-  install_package:
-    cache: update
 
-- name: FND-SPA | install | Install the spark venv
+- name: FND-SPA | install | Install the spark package from repo
   become: yes
-  install_package:
-    name: spark
-    service: spark
+  zypper:
+    name: "{{ item }}"
     state: present
-
-- name: FND-SPA | install | Uncompress the spark tar
-  become: yes
-  unarchive:
-    copy: no
-    creates: >
-      "{{ spark_root_dir }}/spark-{{ spark_ver }}-
-      bin-hadoop{{ spark_hadoop_ver }}"
-    dest: "{{ spark_root_dir }}"
-    src: "{{ spark_venv_lib_dir }}/{{ spark_tarball_name }}"
+  when: deployer_media_legacy_layout|bool == False
+  with_items:
+    - "spark"
+    - "kafka"
 
 - name: FND-SPA | install | Install OS specific required packages
   become: yes
@@ -60,23 +49,33 @@
     name: "{{ item }}"
     state: present
   with_items: fnd_spark_required_packages
+  when: deployer_media_legacy_layout|bool
 
-- name: FND-SPA | install | Untar kafka tarball
+
+- name: FND-SPA | install | include legacy layout tasks
+  include: install_legacy.yml
+  when: deployer_media_legacy_layout|bool
+
+- name: FND-SPA | install | create folder for linking spark libs
   become: yes
-  unarchive:
-    copy: no
-    creates: "{{ spark_venv_lib_dir }}/kafka_2.10-0.8.1.1"
-    dest: "{{ spark_venv_lib_dir }}"
-    src: "{{ spark_venv_lib_dir }}/kafka_2.10-0.8.1.1.tgz"
+  file:
+    path: "{{ item  }}"
+    state: directory
+    owner: "{{ spark_user }}"
+    group: "{{ spark_group }}"
+    mode: 0775
+  when: deployer_media_legacy_layout|bool == False
+  with_items:
+    - "{{ spark_versioned_dir }}"
+    - "{{ spark_versioned_dir }}/conf"
 
-- name: FND-SPA | install | Link lib jars to spark lib directory
+- name: FND-SPA | install | Link spark jars directory
   become: yes
   file:
     state: link
-    dest: "{{ spark_lib_jars_location }}/{{ item[0] }}"
-    src: "{{ spark_venv_lib_dir }}/{{ item[1] }}/{{ item[0] }}"
-  with_items:
-    - "{{ spark_libs }}"
+    dest: "{{ spark_lib_jars_location }}"
+    src: '/usr/share/spark/lib/'
+  when: deployer_media_legacy_layout|bool == False
 
 - name: FND-SPA | install | Create Spark log and local directories
   become: yes
