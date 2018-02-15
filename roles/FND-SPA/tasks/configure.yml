@@ -89,6 +89,7 @@
     group: root
     mode: 0755
     src: start-spark-master.sh.j2
+  when: deployer_media_legacy_layout|bool
 
 - name: FND-SPA | configure | Create spark-worker start script
   become: yes
@@ -98,6 +99,7 @@
     group: root
     mode: 0755
     src: start-spark-worker.sh.j2
+  when: deployer_media_legacy_layout|bool
 
 - name: FND-SPA | configure | Create spark-master systemd config
   become: yes
@@ -107,6 +109,7 @@
     owner: root
     group: root
     mode: 0644
+  when: deployer_media_legacy_layout|bool
 
 - name: FND-SPA | configure | Create spark-worker systemd config
   become: yes
@@ -116,6 +119,7 @@
     owner: root
     group: root
     mode: 0644
+  when: deployer_media_legacy_layout|bool
 
 # See: http://www.freedesktop.org/software/systemd/man/tmpfiles.d.html
 - name: FND-SPA | configure | Create spark-master.conf
