@@ -28,7 +28,11 @@ spark_tarball_name: spark-{{ spark_ver }}-bin-hadoop{{ spark_hadoop_ver }}.tgz
 spark_streaming_kafka_version_jar: spark-streaming-kafka_2.10-{{ spark_ver }}.jar
 spark_streaming_kafka_jar: spark-streaming-kafka.jar
 spark_root_dir: "{{ spark_component_name | bin_dir() }}/.."
-spark_venv_lib_dir: "{{ spark_component_name | jar_dir() }}"
+spark_venv_lib_dir: "{%- if deployer_media_legacy_layout|bool -%}
+                        {{ spark_component_name | jar_dir() }}
+                     {%- else -%}
+                        /usr/share/spark/lib/
+                     {%- endif -%}"
 spark_libs:
   - ["kafka_2.10-0.8.1.1.jar", "kafka_2.10-0.8.1.1/libs"]
   - ["scala-library-2.10.1.jar", "kafka_2.10-0.8.1.1/libs"]

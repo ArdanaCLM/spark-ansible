@@ -21,6 +21,7 @@
   file:
     path: "{{ spark_current_dir }}"
     state: absent
+  when: deployer_media_legacy_layout|bool
 
 - name: FND-SPA | unlink | Unlink spark commands in /usr/bin
   become: yes
