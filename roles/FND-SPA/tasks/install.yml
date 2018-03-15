@@ -42,6 +42,7 @@
   with_items:
     - "spark"
     - "kafka"
+    - "mysql-connector-java"
 
 - name: FND-SPA | install | Install OS specific required packages
   become: yes
@@ -52,30 +53,17 @@
   when: deployer_media_legacy_layout|bool
 
 
+- name: FND-SPA | install | create symlink to mysql connector jdbc jar
+  become: yes
+  file:
+    src: "/usr/share/java/{{ spark_jdbc_jar }}"
+    dest: "{{ spark_venv_lib_dir }}/{{ spark_jdbc_jar }}"
+    state: link
+  when: deployer_media_legacy_layout|bool == False
+
 - name: FND-SPA | install | include legacy layout tasks
   include: install_legacy.yml
   when: deployer_media_legacy_layout|bool
-
-- name: FND-SPA | install | create folder for linking spark libs
-  become: yes
-  file:
-    path: "{{ item  }}"
-    state: directory
-    owner: "{{ spark_user }}"
-    group: "{{ spark_group }}"
-    mode: 0775
-  when: deployer_media_legacy_layout|bool == False
-  with_items:
-    - "{{ spark_versioned_dir }}"
-    - "{{ spark_versioned_dir }}/conf"
-
-- name: FND-SPA | install | Link spark jars directory
-  become: yes
-  file:
-    state: link
-    dest: "{{ spark_lib_jars_location }}"
-    src: '/usr/share/spark/lib/'
-  when: deployer_media_legacy_layout|bool == False
 
 - name: FND-SPA | install | Create Spark log and local directories
   become: yes

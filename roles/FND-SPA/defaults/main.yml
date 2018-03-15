@@ -28,17 +28,25 @@ spark_tarball_name: spark-{{ spark_ver }}-bin-hadoop{{ spark_hadoop_ver }}.tgz
 spark_streaming_kafka_version_jar: spark-streaming-kafka_2.10-{{ spark_ver }}.jar
 spark_streaming_kafka_jar: spark-streaming-kafka.jar
 spark_root_dir: "{{ spark_component_name | bin_dir() }}/.."
+
 spark_venv_lib_dir: "{%- if deployer_media_legacy_layout|bool -%}
                         {{ spark_component_name | jar_dir() }}
                      {%- else -%}
                         /usr/share/spark/lib/
                      {%- endif -%}"
+
+spark_jdbc_jar: "{%- if deployer_media_legacy_layout|bool -%}
+                    drizzle-jdbc-1.3.jar
+                 {%- else -%}
+                    mysql-connector-java.jar
+                 {%- endif -%}"
+
 spark_libs:
   - ["kafka_2.10-0.8.1.1.jar", "kafka_2.10-0.8.1.1/libs"]
   - ["scala-library-2.10.1.jar", "kafka_2.10-0.8.1.1/libs"]
   - ["metrics-core-2.2.0.jar", "kafka_2.10-0.8.1.1/libs"]
   - ["{{ spark_streaming_kafka_version_jar }}", ""]
-  - ["drizzle-jdbc-1.3.jar", ""]
+  - ["{{ spark_jdbc_jar }}", ""]
 spark_current_dir: "{{ spark_root_dir }}/current"
 spark_versioned_dir: "{{ spark_root_dir }}/spark-{{ spark_ver }}-bin-hadoop{{ spark_hadoop_ver }}"
 spark_lib_jars_location: "{{ spark_versioned_dir }}/lib"
