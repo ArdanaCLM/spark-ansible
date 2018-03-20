@@ -15,6 +15,13 @@
 # under the License.
 #
 ---
+- name: FND-SPA | install_legacy | Install OS specific required packages
+  become: yes
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: fnd_spark_required_packages
+
 - name: FND-SPA | install_legacy | Update installed packager cache
   become: yes
   install_package:
