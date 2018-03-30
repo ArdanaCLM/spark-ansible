@@ -15,6 +15,24 @@
 # under the License.
 #
 ---
+- name: FND-SPA | install_legacy | Setup group
+  become_user: root
+  become: True
+  group:
+    name: "{{ spark_group }}"
+    system: yes
+
+- name: FND-SPA | install_legacy | Setup user
+  become: yes
+  user:
+    name: "{{ spark_user }}"
+    system: yes
+    group: "{{ spark_group }}"
+    createhome: no
+    home: /nonexistent
+    shell: /usr/sbin/nologin
+    comment: "Apache Spark system user"
+
 - name: FND-SPA | install_legacy | Install OS specific required packages
   become: yes
   package:

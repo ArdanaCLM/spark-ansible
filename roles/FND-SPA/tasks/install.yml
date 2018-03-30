@@ -18,20 +18,6 @@
 - name: FND-SPA | install | include OS specific variables
   include_vars: "{{ ansible_os_family | lower }}.yml"
 
-- name: FND-SPA | install | Setup group
-  become_user: root
-  become: True
-  group:
-    name: "{{ spark_group }}"
-    system: yes
-
-- name: FND-SPA | install | Setup user
-  become: yes
-  user:
-    name: "{{ spark_user }}"
-    system: yes
-    group: "{{ spark_group }}"
-
 - name: FND-SPA | install | Install the spark package from repo
   become: yes
   package:
