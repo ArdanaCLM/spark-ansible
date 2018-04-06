@@ -32,10 +32,9 @@
     system: yes
     group: "{{ spark_group }}"
 
-
 - name: FND-SPA | install | Install the spark package from repo
   become: yes
-  zypper:
+  package:
     name: "{{ item }}"
     state: present
   when: deployer_media_legacy_layout|bool == False
@@ -43,15 +42,6 @@
     - "spark"
     - "kafka"
     - "mysql-connector-java"
-
-- name: FND-SPA | install | Install OS specific required packages
-  become: yes
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items: fnd_spark_required_packages
-  when: deployer_media_legacy_layout|bool
-
 
 - name: FND-SPA | install | create symlink to mysql connector jdbc jar
   become: yes
