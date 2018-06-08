@@ -50,7 +50,7 @@ spark_libs:
 spark_current_dir: "{{ spark_root_dir }}/current"
 spark_versioned_dir: "{{ spark_root_dir }}/spark-{{ spark_ver }}-bin-hadoop{{ spark_hadoop_ver }}"
 spark_lib_jars_location: "{{ spark_versioned_dir }}/lib"
-spark_local_dir: /var/spark
+
 spark_run_dir: /var/run/spark
 spark_worker_directory: "{{ spark_run_dir }}/work"
 spark_conf_dir: /etc/spark/conf
