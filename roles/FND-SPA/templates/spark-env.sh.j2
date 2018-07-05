@@ -2,7 +2,7 @@
 {#
 #
 # (c) Copyright 2016 Hewlett Packard Enterprise Development LP
-# (c) Copyright 2017 SUSE LLC
+# (c) Copyright 2017, 2018 SUSE LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -32,3 +32,5 @@ export SPARK_WORKER_CORES={{ spark_worker_cores }}
 
 export SPARK_HISTORY_OPTS="$SPARK_HISTORY_OPTS -Dspark.history.fs.logDirectory=file://{{ spark_event_log_directory }} -Dspark.history.ui.port=18082"
 export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS -Xms{{ spark_daemon_x_ms }} -Xmx{{ spark_daemon_x_mx }} -XX:MaxPermSize={{ spark_daemon_max_perm_size }} -Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url={{ spark_zookeeper_hosts }} -Dspark.deploy.zookeeper.dir={{ spark_run_dir }}"
+export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS -Dspark.executor.logs.rolling.maxRetainedFiles=10 -Dspark.executor.logs.rolling.strategy=size -Dspark.executor.logs.rolling.maxSize=20971520"
+export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS -Dspark.worker.cleanup.enabled=true -Dspark.worker.cleanup.interval=1800 -Dspark.worker.cleanup.appDataTtl=86400"
