@@ -78,3 +78,15 @@
     src: "{{ spark_venv_lib_dir }}/{{ item[1] }}/{{ item[0] }}"
   with_items:
     - "{{ spark_libs }}"
+
+- name: FND-SPA | install_legacy | Create Spark local directories
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ spark_user }}"
+    group: "{{ spark_group }}"
+    mode: 0775
+  with_items:
+    - "{{ spark_conf_dir }}"
+    - "{{ spark_init_dir }}"
