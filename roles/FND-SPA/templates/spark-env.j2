@@ -29,6 +29,6 @@ SPARK_WORKER_DIR={{ spark_worker_directory }}
 SPARK_WORKER_MEMORY={{ spark_worker_memory }}
 SPARK_WORKER_CORES={{ spark_worker_cores }}
 
-SPARK_DAEMON_JAVA_OPTS="-Xms{{ spark_daemon_x_ms }} -Xmx{{ spark_daemon_x_mx }} -XX:MaxPermSize={{ spark_daemon_max_perm_size }} -Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url={{ spark_zookeeper_hosts }} -Dspark.deploy.zookeeper.dir={{ spark_run_dir }} -Dspark.executor.logs.rolling.maxRetainedFiles=10 -Dspark.executor.logs.rolling.strategy=size -Dspark.executor.logs.rolling.maxSize=20971520 -Dspark.worker.cleanup.enabled=true -Dspark.worker.cleanup.interval=1800 -Dspark.worker.cleanup.appDataTtl=86400"
+SPARK_DAEMON_JAVA_OPTS="-Xms{{ spark_daemon_x_ms }} -Xmx{{ spark_daemon_x_mx }} -XX:MaxPermSize={{ spark_daemon_max_perm_size }} -Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url={{ spark_zookeeper_hosts }} -Dspark.deploy.zookeeper.dir={{ spark_run_dir }} -Dspark.executor.logs.rolling.maxRetainedFiles=10 -Dspark.executor.logs.rolling.strategy=size -Dspark.executor.logs.rolling.maxSize=20971520 -Dspark.worker.cleanup.enabled=true -Dspark.worker.cleanup.interval=1800 -Dspark.worker.cleanup.appDataTtl=86400 -Dspark.master.rest.enabled=false"
 
 SPARK_MASTERS={{ spark_masters }}
