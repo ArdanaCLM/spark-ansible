@@ -15,13 +15,6 @@
 # under the License.
 #
 ---
-- name: FND-SPA | configure | Link current version
-  become: yes
-  file:
-    path: "{{ spark_current_dir }}"
-    state: link
-    src: "{{ spark_versioned_dir }}"
-  when: deployer_media_legacy_layout|bool
 
 - name: FND-SPA | configure | Set up spark-env (rpm)
   become: yes
@@ -31,7 +24,6 @@
     owner: "{{ spark_user }}"
     group: "{{ spark_group }}"
     mode: 0644
-  when: deployer_media_legacy_layout|bool == False
 
 - name: FND-SPA | configure | Set up spark-defaults (rpm)
   become: yes
@@ -41,8 +33,3 @@
     owner: "{{ spark_user }}"
     group: "{{ spark_group }}"
     mode: 0644
-  when: deployer_media_legacy_layout|bool == False
-
-- name: FND-SPA | configure | include configure tasks (legacy)
-  include: configure_legacy.yml
-  when: deployer_media_legacy_layout|bool

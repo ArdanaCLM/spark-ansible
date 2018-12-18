@@ -23,7 +23,6 @@
   package:
     name: "{{ item }}"
     state: present
-  when: deployer_media_legacy_layout|bool == False
   with_items:
     - "spark"
     - "kafka"
@@ -35,11 +34,6 @@
     src: "/usr/share/java/{{ spark_jdbc_jar }}"
     dest: "{{ spark_venv_lib_dir }}/{{ spark_jdbc_jar }}"
     state: link
-  when: deployer_media_legacy_layout|bool == False
-
-- name: FND-SPA | install | include legacy layout tasks
-  include: install_legacy.yml
-  when: deployer_media_legacy_layout|bool
 
 - name: FND-SPA | install | Create Spark local directories
   become: yes
@@ -53,18 +47,6 @@
     - "{{ spark_run_dir }}"
     - "{{ spark_worker_directory }}"
     - "{{ spark_tools_dir }}"
-
-- name: FND-SPA | install | Create Spark log directory
-  become: yes
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ spark_user }}"
-    group: adm
-    mode: 0770
-  with_items:
-    - "{{ spark_log_dir }}"
-  when: deployer_media_legacy_layout|bool
 
 - name: FND-SPA | install | Touch logfiles
   become: true

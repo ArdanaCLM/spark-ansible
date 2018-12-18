@@ -23,23 +23,15 @@ spark_local_hostname: >
       selectattr('ardana_ansible_host','equalto', inventory_hostname) |
       first).host }}
 spark_ver: 1.6.3
-spark_hadoop_ver: "{{ '2.6' if deployer_media_legacy_layout|bool else '2.4' }}"
+spark_hadoop_ver: "2.4"
 spark_tarball_name: spark-{{ spark_ver }}-bin-hadoop{{ spark_hadoop_ver }}.tgz
 spark_streaming_kafka_version_jar: spark-streaming-kafka_2.10-{{ spark_ver }}.jar
 spark_streaming_kafka_jar: spark-streaming-kafka.jar
 spark_root_dir: "{{ spark_component_name | bin_dir() }}/.."
 
-spark_venv_lib_dir: "{%- if deployer_media_legacy_layout|bool -%}
-                        {{ spark_component_name | jar_dir() }}
-                     {%- else -%}
-                        /usr/share/spark/lib/
-                     {%- endif -%}"
+spark_venv_lib_dir: "/usr/share/spark/lib/"
 
-spark_jdbc_jar: "{%- if deployer_media_legacy_layout|bool -%}
-                    drizzle-jdbc-1.3.jar
-                 {%- else -%}
-                    mysql-connector-java.jar
-                 {%- endif -%}"
+spark_jdbc_jar: "mysql-connector-java.jar"
 
 spark_libs:
   - ["kafka_2.10-0.8.1.1.jar", "kafka_2.10-0.8.1.1/libs"]

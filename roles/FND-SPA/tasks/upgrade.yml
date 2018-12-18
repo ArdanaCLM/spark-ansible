@@ -21,8 +21,6 @@
 
 - include: stop.yml
 
-- include: unlink.yml
-
 - include: install.yml
 
 - include: configure.yml
