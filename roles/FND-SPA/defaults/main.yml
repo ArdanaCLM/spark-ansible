@@ -22,25 +22,22 @@ spark_local_hostname: >
   {{ (spark_hosts |
       selectattr('ardana_ansible_host','equalto', inventory_hostname) |
       first).host }}
-spark_ver: 1.6.3
-spark_hadoop_ver: "2.4"
+spark_ver: 2.2.3
+spark_hadoop_ver: "2.6"
 spark_tarball_name: spark-{{ spark_ver }}-bin-hadoop{{ spark_hadoop_ver }}.tgz
-spark_streaming_kafka_version_jar: spark-streaming-kafka_2.10-{{ spark_ver }}.jar
+# legacy variable
+spark_streaming_kafka_version_jar: spark-streaming_2.11-{{ spark_ver }}.jar
+# legacy variable
 spark_streaming_kafka_jar: spark-streaming-kafka.jar
 spark_root_dir: "{{ spark_component_name | bin_dir() }}/.."
 
-spark_venv_lib_dir: "/usr/share/spark/lib/"
+spark_venv_lib_dir: "/usr/share/spark/jars/"
 
 spark_jdbc_jar: "mysql-connector-java.jar"
 
-spark_libs:
-  - ["kafka_2.10-0.8.1.1.jar", "kafka_2.10-0.8.1.1/libs"]
-  - ["scala-library-2.10.1.jar", "kafka_2.10-0.8.1.1/libs"]
-  - ["metrics-core-2.2.0.jar", "kafka_2.10-0.8.1.1/libs"]
-  - ["{{ spark_streaming_kafka_version_jar }}", ""]
-  - ["{{ spark_jdbc_jar }}", ""]
 spark_current_dir: "{{ spark_root_dir }}/current"
 spark_versioned_dir: "{{ spark_root_dir }}/spark-{{ spark_ver }}-bin-hadoop{{ spark_hadoop_ver }}"
+# used for legacy install
 spark_lib_jars_location: "{{ spark_versioned_dir }}/lib"
 
 spark_run_dir: /var/run/spark
