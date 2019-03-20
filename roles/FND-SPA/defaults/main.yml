@@ -24,9 +24,10 @@ spark_local_hostname: >
       first).host }}
 spark_ver: 2.2.3
 spark_hadoop_ver: "2.6"
+spark_scala_ver: "2.10"
 spark_tarball_name: spark-{{ spark_ver }}-bin-hadoop{{ spark_hadoop_ver }}.tgz
 # legacy variable
-spark_streaming_kafka_version_jar: spark-streaming_2.11-{{ spark_ver }}.jar
+spark_streaming_kafka_version_jar: spark-streaming_{{ spark_scala_ver }}-{{ spark_ver }}.jar
 # legacy variable
 spark_streaming_kafka_jar: spark-streaming-kafka.jar
 spark_root_dir: "{{ spark_component_name | bin_dir() }}/.."
